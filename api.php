@@ -28,7 +28,7 @@ function handleData() {
         $stats = json_decode($_POST["newtournament"])->players;
         $adminPassword = json_decode($_POST["newtournament"])->password;
 
-        if($adminPassword !== $env["ADMIN_AUTH"] && $_SERVER["HTTP_HOST"] !== "localhost") {
+        if($adminPassword !== $env["ADMIN_AUTH"]) {
             http_response_code(401);
             echo json_encode(array("success" => false, "message" => "Invalid admin password", "players" => array()));
             die();
