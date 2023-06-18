@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/imageedi/leaderboard.image-editor-online.com/
+    - /bin/cp api.php $DEPLOYPATH # Copy single file
+    # - /bin/cp -R build $DEPLOYPATH # Copy an entire folder
