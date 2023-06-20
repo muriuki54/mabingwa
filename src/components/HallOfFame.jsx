@@ -27,7 +27,7 @@ function HallOfFame({hallOfFamers}) {
         <div className="members">
             {hallOfFamers.length > 0 ? hallOfFamers.map(function(player, index) {
                 return(
-                    <div className={index === 0 ? "member member-big" : "member member-small"} key={index}>{/* Member */}
+                    <div className={index === 0 ? "member member-big rank-"+(index+1) : "member member-small rank "+(index+1)} key={index}>{/* Member */}
                         <img src={getProfile(index)} alt="" className="profile-pic" />
                         <h2 className="hall-of-famer">{player.name}</h2>
                         <small>Wins</small>

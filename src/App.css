@@ -101,15 +101,15 @@ header nav ul li a {
   -o-transform: translateY(-10px);
 }
 
-.member.member-big { /* Rank 1*/
+.member.rank-1 { /* Rank 1*/
   grid-column: 2/3;
 }
 
-.member.member-small:first-child { /* Rank 3 */
+.member.rank-3 { /* Rank 3 */
   grid-column: 1/2;
 }
 
-.member.member-small:last-child { /* Rank 2*/
+.member.rank-2 { /* Rank 2*/
   grid-column: 3/4;
 }
 
