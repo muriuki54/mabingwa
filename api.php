@@ -1,14 +1,20 @@
 <?php
 $env = parse_ini_file(".env");
+if($_SERVER["HTTP_HOST"] === "localhost") {
+    ini_set('track_errors', 1);
+}
 
 header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
 
+require_once "logs.php";
 require_once "db.php";
 
 function handleData() {
     global $env;
     global $conn;
+    $method = $_SERVER["REQUEST_METHOD"];
+
     if(isset($_GET["action"])) {
         switch($_GET["action"]) {
             case "fetchplayers":
@@ -20,7 +26,20 @@ function handleData() {
                 $conn = null;
                 break;
             default:
-                echo json_encode(array("message" => "No action specified, could not fetch data"));
+                http_response_code(400);
+               switch($method) {
+                case "GET":
+                    $params = $_GET;
+                    break;
+                case "POST":
+                    $params = $_POST;
+                    break;
+                default:
+                    $params = array();
+               }
+                echo json_encode(array("message" => "Invalid request. Check if for the proper request URL and request method."));
+                logErrorToFile("Invalid " . $method . " request with params: "  . implode($params, ","));
+                die();
         }
     }
 
@@ -31,8 +50,17 @@ function handleData() {
         if($adminPassword !== $env["ADMIN_AUTH"]) {
             http_response_code(401);
             echo json_encode(array("success" => false, "message" => "Invalid admin password", "players" => array()));
+            logErrorToFile("Invalid login attempt using password: '" . $adminPassword . "' from IP Address: " . $_SERVER["REMOTE_ADDR"]); //Log invalid password attempts
             die();
         }
+
+        // Open log file to append new data
+        $new_stats_filepath =  dirname(__FILE__) . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR. date("m-d-Y h-i-sa") . ".csv"; // create the file with the current timstamp as its name
+        $new_stats_file = @fopen($new_stats_filepath, "a");
+
+        // if(! $new_stats_file) echo $php_errormsg;
+        // Write headers to CSV file
+        fputcsv($new_stats_file, array("Name", "GF", "GA", "Played", "Won"));
 
         // Insert to DB
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -58,7 +86,14 @@ function handleData() {
             $sql = "UPDATE players SET ga = ga + $ga, gf = gf + $gf, played = played + $played, won = won + $won WHERE id = $id";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
+
+            // Write data to CSV file for redudancy
+            $statArray = (array)$stat;
+            fputcsv($new_stats_file, [$statArray["name"], $statArray["gf"], $statArray["ga"], $statArray["played"] ? "Yes" : "No",  $statArray["won"] ? "Yes" : "No"]);
         }
+
+        // Close stats file
+        fclose($new_stats_file);
         
 
         $conn = null;
