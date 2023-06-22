@@ -30,7 +30,7 @@ try {
     // die();
 } catch (PDOException  $e) {
     http_response_code(500);
-    echo json_encode(array("message", "Connection failed ". $e->getMessage()));
+    echo json_encode(array("message", "Connection failed"));
     logErrorToFile($e->getMessage());
     die();
 }
