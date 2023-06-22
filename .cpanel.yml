@@ -4,4 +4,5 @@ deployment:
     - export DEPLOYPATH=/home/imageedi/leaderboard.image-editor-online.com/
     - /bin/cp api.php $DEPLOYPATH # Copy single file
     - /bin/cp db.php $DEPLOYPATH
+    - /bin/cp logs.php $DEPLOYPATH
     # - /bin/cp -R static $DEPLOYPATH # Copy an entire folder
