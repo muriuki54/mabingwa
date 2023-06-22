@@ -2,22 +2,40 @@ import React, { forwardRef, useEffect, useState } from 'react'
 import HallOfFame from './HallOfFame'
 
 const DisplayPlayers = forwardRef(function(props, ref) {
+  let [error, setError] = useState(false);
   let [players, setPlayers] = useState([]);
   let [hallOfFamers, sethallOfFamers] = useState([]);
 
 
   useEffect(() => {
     async function fetchPlayers() {
+      // let apiUrl = "https://leaderboard.image-editor-online.com/api.php?action=fetchplayers";
+      // let apiUrl = "https://localhost/mabingwa/api.php?action=fetchplayers";
       let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchplayers" : "https://leaderboard.image-editor-online.com/api.php?action=fetchplayers";
-      let response = await fetch(apiUrl, {method: "get"});
-      let data = await response.json();
+      let response, data;
+      try {
+        response = await fetch(apiUrl, {method: "get"});
+        if(! response.ok) {
+          setError(true);
+          // throw new Error(response.statusText);
+        }
+        console.log(response)
+        data = await response.json();
+        // data = await response.text();
+      } catch(e) {
+        console.log(e)
+      }
   
-      setPlayers(function(prevState) {
-        return [...prevState, ...data.players]
-      })
-      sethallOfFamers(function(prevState) {
-        return[...prevState, ...data.players.slice(0,3)]
-      })
+      if(data && data.players) {
+        setPlayers(function(prevState) {
+          return [...prevState, ...data.players]
+        })
+        sethallOfFamers(function(prevState) {
+          return[...prevState, ...data.players.slice(0,3)]
+        })
+      } else {
+        setError(true);
+      }
     }
 
     fetchPlayers(); // Fetch players from the DB
@@ -26,7 +44,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
   
   return (
     <>
-    <HallOfFame hallOfFamers={hallOfFamers} />
+    <HallOfFame hallOfFamers={hallOfFamers} error={error} />
     <div className="players-table" ref={ref}>
       <div className="container">
             <h2>Player ranks based on all time:</h2>
@@ -44,19 +62,27 @@ const DisplayPlayers = forwardRef(function(props, ref) {
               <p>GA</p>
               <p>GD</p>
             </div>
-            {players.map(function(player, index) {
-              return (
-                <div className={index === 0 ? "player player-first" : "player"} key={index}>
-                  <p className="player-position">#{index + 1}</p>
-                  <p className="player-name">{player.name}</p>
-                  <p className="wins">{player.played}</p>
-                  <p className="wins">{player.won}</p>
-                  <p className="gf">{player.gf}</p>
-                  <p className="ga">{player.ga}</p>
-                  <p className="gd">{player.gf - player.ga}</p>
-                </div>
-              )
-            })}
+            {! error ?
+            <>
+            {
+              players.map(function(player, index) {
+                return (
+                  <div className={index === 0 ? "player player-first" : "player"} key={index}>
+                    <p className="player-position">#{index + 1}</p>
+                    <p className="player-name">{player.name}</p>
+                    <p className="wins">{player.played}</p>
+                    <p className="wins">{player.won}</p>
+                    <p className="gf">{player.gf}</p>
+                    <p className="ga">{player.ga}</p>
+                    <p className="gd">{player.gf - player.ga}</p>
+                  </div>
+                )
+              })
+            }
+            </>
+            :
+            <p className="loading">An error occured. Could not fetch player stats</p>
+            }
           </div>
     </div>
     </>

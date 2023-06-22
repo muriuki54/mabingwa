@@ -11,6 +11,7 @@ function AddTournament() {
     password: "",
     players: []
   })
+  let [error, setError] = useState(false);
 
   useEffect(() => {
     fetchPlayers(); // Fetch players from the DB
@@ -18,26 +19,38 @@ function AddTournament() {
 
   async function fetchPlayers() {
     let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchplayers" : "https://leaderboard.image-editor-online.com/api.php?action=fetchplayers";
-    let response = await fetch(apiUrl, {method: "get"});
-    let data = await response.json();
-
-    let playerObjsArray = [];
-    data.players.forEach(function(player) {
-      playerObjsArray.push({
-        id: player.id,
-        name: player.name,
-        ga: 0,
-        gf: 0,
-        played: false,
-        won: false
-      })
-    })
-    setTournament(prevState => {
-      return {
-        ...prevState,
-        players: playerObjsArray
+    let response, data;
+    try {
+      response = await fetch(apiUrl, {method: "get"});
+      if(! response.ok) {
+        // throw new Error("Could not fetch players");
+        setError(true);
       }
-    })
+      data = await response.json();
+    } catch(e) {
+      console.log(e);
+      setError(true);
+    }
+
+    if(data && data.players) {
+      let playerObjsArray = [];
+      data.players.forEach(function(player) {
+        playerObjsArray.push({
+          id: player.id,
+          name: player.name,
+          ga: 0,
+          gf: 0,
+          played: false,
+          won: false
+        })
+      })
+      setTournament(prevState => {
+        return {
+          ...prevState,
+          players: playerObjsArray
+        }
+      })
+    }
   };
 
   function updateTournamentStatus(e, stat, playerId = null) {
@@ -106,7 +119,9 @@ function AddTournament() {
       body: formData, 
     })
 
+    // let response = await request.json();
     let response = await request.json();
+
     // console.log(response);
     if(response.success) {
       alert(response.message);
@@ -118,7 +133,7 @@ function AddTournament() {
 
   }
 
-  function stringToLower(str) {
+  function stringToLower(str) { // Replace whitespace with underscores
   return str.toLowerCase().replace(/ /g, "_");
   }
 
@@ -129,6 +144,8 @@ function AddTournament() {
           <div className="won-by" ref={winnerSection}>
             <h1>Winner</h1>
             <hr />
+            {! error ? 
+            <>
             {tournament.players.map(function(player, index) {
               return (
                 <div className="field" key={index}>
@@ -137,7 +154,14 @@ function AddTournament() {
                 </div>
               )
             })}
+            </>
+            : 
+            <p className="error">An error occured. Could not fetch players.</p>
+            }
+            
           </div>
+          {! error ?
+          <>
           {tournament.players.map(function(player, index) {
               return (
               <fieldset className={tournament.players[index].played ? "player-stats" : "player-stats fields-disabled"} key={index}>
@@ -164,6 +188,10 @@ function AddTournament() {
           </div>
 
           <button className="btn btn-primary">SUBMIT</button>
+          </>
+          :
+          <></> // Ann error occured
+          }
         </form>
       </div>
     </div>
