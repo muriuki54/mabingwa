@@ -2,7 +2,9 @@ import React from 'react'
 
 function TabularDisplay() {
   return (
-    <div>TabularDisplay</div>
+    <div>
+      TabularDisplay
+    </div>
   )
 }
 
