@@ -2,9 +2,16 @@ import React from 'react'
 import logo from "../assets/logo.png";
 import { Link } from 'react-router-dom';
 
-function Header({leaderboardRef}) {
-    function scrollToTable() {
+function Header({leaderboardRef, visualTableRef}) {
+    console.log(leaderboardRef)
+    console.log(visualTableRef)
+
+    function scrollToTableTop() {
         leaderboardRef.current?.scrollIntoView({behavior: "smooth"});
+    }
+
+    function scrollToTableBottom() {
+        leaderboardRef.current?.scrollIntoView({behavior: "smooth", block: "center"});
     }
 
   return (
@@ -17,7 +24,8 @@ function Header({leaderboardRef}) {
             <nav>
                 <ul>
                     <li><Link to="/">Hall of fame</Link></li>
-                    <li onClick={scrollToTable}>Leaderboard</li>
+                    <li onClick={scrollToTableTop}>Leaderboard</li>
+                    <li onClick={scrollToTableBottom}>Visual</li>
                     <li><Link to="/add">New Tournament</Link></li>
                 </ul>
             </nav>

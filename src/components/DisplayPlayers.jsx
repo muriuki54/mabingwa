@@ -1,7 +1,11 @@
-import React, { forwardRef, useEffect, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import HallOfFame from './HallOfFame'
+import VisualDisplay from './VisualDisplay';
 
 const DisplayPlayers = forwardRef(function(props, ref) {
+
+  let visualTableRef = useRef();
+
   let [error, setError] = useState(false);
   let [players, setPlayers] = useState([]);
   let [hallOfFamers, sethallOfFamers] = useState([]);
@@ -45,6 +49,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
   return (
     <>
     <HallOfFame hallOfFamers={hallOfFamers} error={error} />
+
     <div className="players-table" ref={ref}>
       <div className="container">
             <h2>Player ranks based on all time:</h2>
@@ -84,7 +89,10 @@ const DisplayPlayers = forwardRef(function(props, ref) {
             <p className="loading">An error occured. Could not fetch player stats</p>
             }
           </div>
+
+          <VisualDisplay players={players} ref={visualTableRef} />
     </div>
+
     </>
   )
 })
