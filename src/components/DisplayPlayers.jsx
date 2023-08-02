@@ -52,11 +52,11 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
     <div className="players-table" ref={ref}>
       <div className="container">
-            <h2>Player ranks based on all time:</h2>
-            <ul>
+            <h2>Player ranks based on:</h2>
+            <ol type="1">
               <li>Most tournaments won</li>
               <li>Goal Difference</li>
-            </ul>
+            </ol>
             <hr />
             <div className="players-titles">
               <p><span className="display-lg">Rank</span><span className="display-sm">#</span></p>
