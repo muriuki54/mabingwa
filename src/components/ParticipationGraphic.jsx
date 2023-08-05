@@ -24,7 +24,7 @@ function ParticipationGraphic({players, player}) {
         <circle cx="55" cy="55" r="50" transform="rotate(-90 55 55)" stroke="#E8E7ED" strokeWidth="10"/>
         <circle cx="55" cy="55" r="50" transform="rotate(-90 55 55)" strokeDasharray={getDasharray()} strokeDashoffset={getDashoffset(player.played)} stroke="#6A5BE1" strokeWidth="10" strokeLinecap="round" />
         <text fill="black" fontFamily="Sans-serif" fontSize="24" letterSpacing="0em"><tspan x="30" y="56.2273">{getParticipationPercentage(player.played)}</tspan></text>
-        <text fill="black" fontFamily="Sans-serif" font-size="12" letter-spacing="0em"><tspan x="42" y="73.8636">{player.played} / {totalGames}</tspan></text>
+        <text fill="black" fontFamily="Sans-serif" fontSize="12" letterSpacing="0em"><tspan x="42" y="73.8636">{player.played} / {totalGames}</tspan></text>
     </svg>
   )
 }

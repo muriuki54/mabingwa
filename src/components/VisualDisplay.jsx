@@ -4,7 +4,7 @@ import GaGfGraphic from './GaGfGraphic';
 import ParticipationGraphic from './ParticipationGraphic';
 
 const VisualDisplay = forwardRef(function({players}, ref) {
-    console.log(ref)
+    // console.log(ref)
     // let outer = useRef();
     // console.log(outer.current?.getTotalLength());
   return (
