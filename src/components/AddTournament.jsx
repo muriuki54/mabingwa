@@ -9,7 +9,7 @@ function AddTournament() {
   let [tournament, setTournament] = useState({
     winner: null,
     password: "",
-    players: []
+    players: [],
   })
   let [error, setError] = useState(false);
 
@@ -41,7 +41,8 @@ function AddTournament() {
           ga: 0,
           gf: 0,
           played: false,
-          won: false
+          won: false,
+          goldenBoot: false
         })
       })
       setTournament(prevState => {
@@ -76,6 +77,12 @@ function AddTournament() {
         break;
       case "password":
         tournament.password = e.target.value;
+        break;
+      case "goldenbootwinner":
+        tournament.players.forEach(player => {
+          player.goldenBoot = false;
+        })
+        tournament.players[playerIndex].goldenBoot = e.target.checked;
         break;
       default:
         break;
@@ -149,8 +156,8 @@ function AddTournament() {
             {tournament.players.map(function(player, index) {
               return (
                 <div className="field" key={index}>
-                <input type="radio" name="winner" value={player.id} onChange={e => updateTournamentStatus(e, "won", player.id)} id={stringToLower(player.name)} />
-                <label htmlFor={stringToLower(player.name)}>{player.name}</label>
+                <input type="radio" name="winner" value={player.id} onChange={e => updateTournamentStatus(e, "won", player.id)} id={stringToLower(player.name) + "_wonstatus"} />
+                <label htmlFor={stringToLower(player.name) + "_wonstatus"}>{player.name}</label>
                 </div>
               )
             })}
@@ -160,8 +167,28 @@ function AddTournament() {
             }
             
           </div>
+          <div className="golden-boot">
+            <h2>Golden boot</h2>
+            <hr />
+            {! error ? 
+            <>
+            {tournament.players.map(function(player, index) {
+              return (
+                <div className="field" key={index}>
+                <input type="radio" name="goldenbootwinner" value={player.id} onChange={e => updateTournamentStatus(e, "goldenbootwinner", player.id)} id={stringToLower(player.name) + "_goldenboot"}/>
+                <label htmlFor={stringToLower(player.name) + "_goldenboot"}>{player.name}</label>
+                </div>
+              )
+            })}
+            </>
+            : 
+            <p className="error">An error occured. Could not fetch players.</p>
+            }
+          </div>
           {! error ?
           <>
+          <h2>Tournament Winner</h2>
+          <hr />
           {tournament.players.map(function(player, index) {
               return (
               <fieldset className={tournament.players[index].played ? "player-stats" : "player-stats fields-disabled"} key={index}>
