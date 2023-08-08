@@ -145,6 +145,24 @@ header nav ul li a {
 }
 
 #hall-of-famers-toggle > label::before {
+  content: "Click me";
+  font-size: 10px;
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+#hall-of-famers-toggle > label::after {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   content: "\f521";
@@ -169,15 +187,14 @@ header nav ul li a {
   -o-transition: all 0.2s  ease-in-out;
 }
 
-#hall-of-famers-toggle > input[type="checkbox"]:checked + label::before {
+#hall-of-famers-toggle > input[type="checkbox"]:checked + label::after {
   content: "\f1e3";
   left: calc(100% - 33px);
 }
 
 #hall-of-famers-toggle > input[type="checkbox"]:checked + label {
-  background: #ffa3a3;
+  background: #f3c5c5;
 }
-
 
 .members {
   display: grid;
