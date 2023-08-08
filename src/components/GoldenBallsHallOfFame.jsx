@@ -1,20 +1,20 @@
 import React from 'react';
 import loading from "../assets/loading.svg";
 import profile from "../assets/profile.jpg";
-import king from "../assets/king.jpg";
-import knight from "../assets/knight.jpg";
-import archer from "../assets/archer.jpg";
+import optimus from "../assets/optimus.png";
+import bee from "../assets/bee.jpg";
+import mirage from "../assets/mirage.jpg";
 import crown from "../assets/crown.png";
 
 function GoldenBallsHallOfFame({goldenbootsHallOfFamers, error}) {
     function getProfile(index) {
         switch(index) {
             case 0:
-                return king;
+                return optimus;
             case 1:
-                return knight;
+                return bee;
             case 2:
-                return archer;
+                return mirage;
             default:
                 return profile;
         }
