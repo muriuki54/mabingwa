@@ -43,7 +43,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
           let MIAPlayersArray = [];
   
           data.players.map(function(player) {
-            validateParticipation(Number(mostParticipated.played), player.played) ? validatedPlayersArray.push(player) : MIAPlayersArray.push(player);
+            return validateParticipation(Number(mostParticipated.played), player.played) ? validatedPlayersArray.push(player) : MIAPlayersArray.push(player);
           })
   
           setPlayers(function(prevState) {
