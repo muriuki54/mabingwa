@@ -18,15 +18,15 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   useEffect(() => {
     async function fetchPlayers() {
-      let apiUrl = window.location.host.indexOf("localhost") > -1 ? `https://localhost/mabingwa/api.php?action=${actions.action}&season=${actions.season}` : `https://leaderboard.image-editor-online.com/api.php?action=${actions.action}&season=${actions.season}`;
+      let apiUrl = window.location.hostname === "localhost" ? `http://localhost/mabingwa/api.php?action=${actions.action}&season=${actions.season}` : `https://leaderboard.image-editor-online.com/api.php?action=${actions.action}&season=${actions.season}`;
       let response, data;
       try {
         response = await fetch(apiUrl, {method: "get"});
+        console.log(response);
         if(! response.ok) {
           setError(true);
           // throw new Error(response.statusText);
         }
-        console.log(response)
         data = await response.json();
         // data = await response.text();
 
@@ -88,10 +88,11 @@ const DisplayPlayers = forwardRef(function(props, ref) {
   return (
     <>
     <form className="select-season-form" action="" method="get" onSubmit={e => e.preventDefault()}>
-      <select name="select-season" id="select-season" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
+      <label htmlFor="select-season" className="text-center"><b>SELECT SEASON</b></label>
+      <select name="select-season" id="select-season" defaultValue="season_september_november" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
         <option disabled>Select season</option>
-        <option value="season_march_july" selected={actions.season === "season_march_july" ? 'true': 'false'}>Season March - July</option>
-        <option value="season_september_november" selected={actions.season === "season_september_november" ? 'true': 'false'}>Season September - November</option>
+        <option value="season_march_july">March - July 2023</option>
+        <option value="season_september_november" >September - November 2023</option>
       </select>
     </form>
 
