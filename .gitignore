@@ -10,6 +10,7 @@
 
 # production
 /build
+/build.zip
 
 # misc
 .DS_Store
@@ -28,3 +29,9 @@ test.php
 
 # Logs
 /logs
+
+# Backups
+/backups
+
+# Any dbs
+*.sql
