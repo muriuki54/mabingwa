@@ -15,46 +15,49 @@ function handleData() {
     global $conn;
     $method = $_SERVER["REQUEST_METHOD"];
 
-    if(isset($_GET["action"])) {
-        switch($_GET["action"]) {
-            case "fetchcurrentseason":
-                $stmt = $conn->prepare("SELECT * FROM season_september_november ORDER BY won DESC, gf - ga DESC;");
-                $stmt->execute();
-                $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-                $players = $stmt->fetchAll();
-                echo json_encode(array("players" => $players));
-                $conn = null;
-                break;
-            case "fetchseason":
-                $season = $_GET["season"] ?? $_GET["season"];
-                if($season) {
-                    $stmt = $conn->prepare("SELECT * FROM {$season} ORDER BY won DESC, gf - ga DESC;");
+    try {
+        if(isset($_GET["action"])) {
+            switch($_GET["action"]) {
+                case "fetchcurrentseason":
+                    $stmt = $conn->prepare("SELECT * FROM season_september_november ORDER BY won DESC, gf - ga DESC;");
                     $stmt->execute();
-                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    // $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                     $players = $stmt->fetchAll();
                     echo json_encode(array("players" => $players));
                     $conn = null;
-                } else {
-                    echo json_encode(array("players" => false));
-                }
-                
-                break;
-            default:
-                http_response_code(400);
-               switch($method) {
-                case "GET":
-                    $params = $_GET;
                     break;
-                case "POST":
-                    $params = $_POST;
+                case "fetchseason":
+                    $season = $_GET["season"] ?? $_GET["season"];
+                    if($season) {
+                        $stmt = $conn->prepare("SELECT * FROM {$season} ORDER BY won DESC, gf - ga DESC;");
+                        $stmt->execute();
+                        // $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                        $players = $stmt->fetchAll();
+                        echo json_encode(array("players" => $players));
+                    } else {
+                        echo json_encode(array("players" => []));
+                    }
+                    $conn = null;                
                     break;
                 default:
-                    $params = array();
-               }
-                echo json_encode(array("message" => "Invalid request. Check if for the proper request URL and request method."));
-                logErrorToFile("Invalid " . $method . " request with params: "  . implode($params, ","));
-                die();
+                    http_response_code(400);
+                   switch($method) {
+                    case "GET":
+                        $params = $_GET;
+                        break;
+                    case "POST":
+                        $params = $_POST;
+                        break;
+                    default:
+                        $params = array();
+                   }
+                    echo json_encode(array("message" => "Invalid request. Check if for the proper request URL and request method."));
+                    logErrorToFile("Invalid " . $method . " request with params: "  . implode($params, ","));
+                    die();
+            }
         }
+    } catch(Exception $e) {
+        echo json_encode(array("error" => $e));
     }
 
     if(isset($_POST["newtournament"])) {        
