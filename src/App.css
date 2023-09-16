@@ -60,6 +60,18 @@ header nav ul li a {
   color: #000;
 }
 
+/* Select season form */
+.select-season-form {
+  display: grid;
+  place-content: center;
+  padding: 1rem 0 2rem 0;
+}
+
+.select-season-form select {
+  padding: .5rem;
+  border: 1px solid #6A5BE1;
+}
+
 /* Hall of fame */
 .hall-fame-tab {
   animation: fade-grow-in 0.5s ease-out forwards;
@@ -74,7 +86,7 @@ header nav ul li a {
     -moz-transform: scale(0.8);
     -ms-transform: scale(0.8);
     -o-transform: scale(0.8);
-}
+  }
   to {
     opacity: 1;
     transform: scale(1);
@@ -82,7 +94,12 @@ header nav ul li a {
     -moz-transform: scale(1);
     -ms-transform: scale(1);
     -o-transform: scale(1);
+  }
 }
+
+.tab-entry-title {
+  text-transform: capitalize;
+
 }
 .loading,
 .error {
