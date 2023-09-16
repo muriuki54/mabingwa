@@ -12,7 +12,7 @@ function ParticipationGraphic({players, player}) {
     }
 
     function getDashoffset(played) {
-        return Number(played) ? pathLength :  pathLength - (played / totalGames) * pathLength;
+        return Number(played) === 0 ? pathLength :  pathLength - (played / totalGames) * pathLength;
     }
 
     function getParticipationPercentage(participated) {
