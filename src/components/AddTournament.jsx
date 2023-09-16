@@ -18,7 +18,7 @@ function AddTournament() {
   }, [])
 
   async function fetchPlayers() {
-    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchplayers" : "https://leaderboard.image-editor-online.com/api.php?action=fetchplayers";
+    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchcurrentseason" : "https://leaderboard.image-editor-online.com/api.php?action=fetchcurrentseason";
     let response, data;
     try {
       response = await fetch(apiUrl, {method: "get"});
