@@ -17,7 +17,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   useEffect(() => {
     async function fetchPlayers() {
-      let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchplayers" : "https://leaderboard.image-editor-online.com/api.php?action=fetchplayers";
+      let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchcurrentseason" : "https://leaderboard.image-editor-online.com/api.php?action=fetchcurrentseason";
       let response, data;
       try {
         response = await fetch(apiUrl, {method: "get"});
@@ -29,7 +29,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
         data = await response.json();
         // data = await response.text();
 
-        if(data && data.players) {
+        if(data && data.players && data.players.length > 0) {
           const mostParticipated = data.players.reduce((maxPlayed, currentObj) => {
             if (Number(currentObj.played) > Number(maxPlayed.played)) {
               return currentObj;
