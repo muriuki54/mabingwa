@@ -8,14 +8,14 @@ if($_SERVER["HTTP_HOST"] === "localhost") {
     $serverName = $env["DEVELOPMENT__DB_SERVERNAME"];
     $username = $env["DEVELOPMENT__DB_USERNAME"];
     $password = $env["DEVELOPMENT__DB_PASSWORD"];
-    $dbname = $env["DEVELOPMENT_DBNAME"];
+    $dbname = $env["DEVELOPMENT__DBNAME"];
 } else {
     $environment = "prod";
     // LIVE //
     $serverName = $env["LIVE__DB_SERVERNAME"];
     $username = $env["LIVE__DB_USERNAME"];
     $password = $env["LIVE__DB_PASSWORD"];
-    $dbname = $env["LIVE_DBNAME"];
+    $dbname = $env["LIVE__DBNAME"];
 }
 
 $conn;
