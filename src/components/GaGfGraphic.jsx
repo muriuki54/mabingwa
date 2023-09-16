@@ -11,7 +11,8 @@ function GaGfGraphic({player}) {
         let goalsFor = Number(gf);
         let goalsAgainst = Number(ga);
         let total = goalsFor + goalsAgainst;
-        return pathLength - (goalsAgainst / total) * pathLength;
+
+        return goalsFor === 0 && goalsAgainst === 0 ? 0 : pathLength - (goalsAgainst / total) * pathLength;
     }
 
   return (

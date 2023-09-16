@@ -10,14 +10,14 @@ function WinConversionGraphic({player}) {
     function getDashOffset(p ,w) {
         let played = Number(p);
         let won = Number(w);
-        return pathLength - (won / played) * pathLength;
+        return played === 0 ? pathLength : pathLength - (won / played) * pathLength;
     }
 
 
     function  getConversionPercentage(p, w) {
         let played = Number(p);
         let won = Number(w);
-        return Math.round((won / played) * 100) + "%";
+        return played === 0 ? 0 + "%" : Math.round((won / played) * 100) + "%";
     }
 
   return (
