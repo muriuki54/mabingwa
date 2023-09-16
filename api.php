@@ -17,13 +17,27 @@ function handleData() {
 
     if(isset($_GET["action"])) {
         switch($_GET["action"]) {
-            case "fetchplayers":
-                $stmt = $conn->prepare("SELECT * FROM players ORDER BY won DESC, gf - ga DESC;");
+            case "fetchcurrentseason":
+                $stmt = $conn->prepare("SELECT * FROM season_september_november ORDER BY won DESC, gf - ga DESC;");
                 $stmt->execute();
                 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                 $players = $stmt->fetchAll();
                 echo json_encode(array("players" => $players));
                 $conn = null;
+                break;
+            case "fetchseason":
+                $season = $_GET["season"] ?? $_GET["season"];
+                if($season) {
+                    $stmt = $conn->prepare("SELECT * FROM {$season} ORDER BY won DESC, gf - ga DESC;");
+                    $stmt->execute();
+                    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                    $players = $stmt->fetchAll();
+                    echo json_encode(array("players" => $players));
+                    $conn = null;
+                } else {
+                    echo json_encode(array("players" => false));
+                }
+                
                 break;
             default:
                 http_response_code(400);
@@ -85,7 +99,7 @@ function handleData() {
                 // $sql = "UPDATE players SET ga = 0, gf = 0, played = 0, won = 0 WHERE id = $id";
             }
             
-            $sql = "UPDATE players SET ga = ga + $ga, gf = gf + $gf, played = played + $played, won = won + $won, goldenboot = goldenboot + $golden_boot WHERE id = $id";
+            $sql = "UPDATE season_september_november SET ga = ga + $ga, gf = gf + $gf, played = played + $played, won = won + $won, goldenboot = goldenboot + $golden_boot WHERE id = $id";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
