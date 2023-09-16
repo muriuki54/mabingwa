@@ -7,6 +7,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   let visualTableRef = useRef();
 
+  let [actions, setActions] = useState({ action: "fetchcurrentseason", season: "season_september_november" });
   let [error, setError] = useState(false);
   let [players, setPlayers] = useState([]);
   let [tournamentsHallOfFamers, settournamentsHallOfFamers] = useState([]);
@@ -17,7 +18,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   useEffect(() => {
     async function fetchPlayers() {
-      let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchcurrentseason" : "https://leaderboard.image-editor-online.com/api.php?action=fetchcurrentseason";
+      let apiUrl = window.location.host.indexOf("localhost") > -1 ? `https://localhost/mabingwa/api.php?action=${actions.action}&season=${actions.season}` : `https://leaderboard.image-editor-online.com/api.php?action=${actions.action}&season=${actions.season}`;
       let response, data;
       try {
         response = await fetch(apiUrl, {method: "get"});
@@ -47,18 +48,18 @@ const DisplayPlayers = forwardRef(function(props, ref) {
           })
   
           setPlayers(function(prevState) {
-            return [...prevState, ...validatedPlayersArray, ...MIAPlayersArray]
+            return [...validatedPlayersArray, ...MIAPlayersArray]
           })
 
           settournamentsHallOfFamers(function(prevState) {
-            return[...prevState, ...validatedPlayersArray.slice(0,3)]
+            return[...validatedPlayersArray.slice(0,3)]
           })
 
           setgoldenBootsHallOfFamers(function(prevState) {
             let sortedGoldenBootsArr = validatedPlayersArray.sort((a, b) => Number(b.goldenboot) - Number(a.goldenboot));
             // sortedGoldenBootsArr.filter(el => Number(el.goldenboot) > 0)
             console.log(sortedGoldenBootsArr)
-            return[...prevState, ...sortedGoldenBootsArr.filter(el => Number(el.goldenboot) > 0).slice(0,3)]
+            return[...sortedGoldenBootsArr.filter(el => Number(el.goldenboot) > 0).slice(0,3)]
           })
   
         } else {
@@ -70,7 +71,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
     }
 
     fetchPlayers(); // Fetch players from the API
-  }, [])
+  }, [actions])
 
   function validateParticipation(t, p) {
     let total = Number(t),
@@ -86,6 +87,14 @@ const DisplayPlayers = forwardRef(function(props, ref) {
   
   return (
     <>
+    <form className="select-season-form" action="" method="get" onSubmit={e => e.preventDefault()}>
+      <select name="select-season" id="select-season" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
+        <option disabled>Select season</option>
+        <option value="season_march_july" selected={actions.season === "season_march_july" ? 'true': 'false'}>Season March - July</option>
+        <option value="season_september_november" selected={actions.season === "season_september_november" ? 'true': 'false'}>Season September - November</option>
+      </select>
+    </form>
+
     <div className="hall-of-fame">
       <form action="" id="hall-of-famers-toggle">
         <p>Tournaments</p>
@@ -95,9 +104,9 @@ const DisplayPlayers = forwardRef(function(props, ref) {
       </form>
 
     {hallofFameTab === 0 ? 
-      <TournamentWinnersHallOfFame tournamentsHallOfFamers={tournamentsHallOfFamers} error={error} />
+      <TournamentWinnersHallOfFame tournamentsHallOfFamers={tournamentsHallOfFamers} season={actions.season} error={error} />
       :
-      <GoldenBallsHallOfFame goldenbootsHallOfFamers={goldenBootsHallOfFamers} error={error} />
+      <GoldenBallsHallOfFame goldenbootsHallOfFamers={goldenBootsHallOfFamers} season={actions.season} error={error} />
     }
     </div>
 
