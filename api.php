@@ -19,7 +19,7 @@ function handleData() {
         if(isset($_GET["action"])) {
             switch($_GET["action"]) {
                 case "fetchcurrentseason":
-                    $stmt = $conn->prepare("SELECT * FROM season_september_november ORDER BY won DESC, gf - ga DESC;");
+                    $stmt = $conn->prepare("SELECT * FROM fifa_season_september_november ORDER BY won DESC, gf - ga DESC;");
                     $stmt->execute();
                     // $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                     $players = $stmt->fetchAll();
@@ -28,6 +28,8 @@ function handleData() {
                     break;
                 case "fetchseason":
                     $season = $_GET["season"] ?? $_GET["season"];
+                    // echo json_encode(array("players" => $players));
+                    
                     if($season) {
                         $stmt = $conn->prepare("SELECT * FROM {$season} ORDER BY won DESC, gf - ga DESC;");
                         $stmt->execute();
@@ -35,7 +37,7 @@ function handleData() {
                         $players = $stmt->fetchAll();
                         echo json_encode(array("players" => $players));
                     } else {
-                        echo json_encode(array("players" => []));
+                        echo json_encode(array("message" => "error", "players" => []));
                     }
                     $conn = null;                
                     break;
@@ -61,6 +63,7 @@ function handleData() {
     }
 
     if(isset($_POST["newtournament"])) {        
+        $tournament_type = json_decode($_POST["newtournament"])->tournamentType;
         $stats = json_decode($_POST["newtournament"])->players;
         $adminPassword = json_decode($_POST["newtournament"])->password;
 
@@ -72,7 +75,7 @@ function handleData() {
         }
 
         // Open log file to append new data
-        $new_stats_filepath =  dirname(__FILE__) . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR. date("m-d-Y h-i-sa") . ".csv"; // create the file with the current timstamp as its name
+        $new_stats_filepath =  dirname(__FILE__) . DIRECTORY_SEPARATOR . "logs" . DIRECTORY_SEPARATOR. $tournament_type . "__" . date("m-d-Y h-i-sa") . ".csv"; // create the file with the current timstamp as its name
         $new_stats_file = @fopen($new_stats_filepath, "a");
 
         // if(! $new_stats_file) echo $php_errormsg;
@@ -101,8 +104,10 @@ function handleData() {
             if($_SERVER["HTTP_HOST"] === "localhost") {
                 // $sql = "UPDATE players SET ga = 0, gf = 0, played = 0, won = 0 WHERE id = $id";
             }
+
+            $season = $tournament_type . "_season_september_november";
             
-            $sql = "UPDATE season_september_november SET ga = ga + $ga, gf = gf + $gf, played = played + $played, won = won + $won, goldenboot = goldenboot + $golden_boot WHERE id = $id";
+            $sql = "UPDATE {$season} SET ga = ga + $ga, gf = gf + $gf, played = played + $played, won = won + $won, goldenboot = goldenboot + $golden_boot WHERE id = $id";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
 
