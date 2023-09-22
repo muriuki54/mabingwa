@@ -23,7 +23,7 @@ function GoldenBallsHallOfFame({goldenbootsHallOfFamers, season, error}) {
     <div className="container hall-fame-tab">
         {! error ? 
         <>
-        <h1 className="text-center tab-entry-title">{season.split("_").join(" ")} FIFA <span className="text-shadow">Golden Boots</span> Hall of fame</h1>
+        <h1 className="text-center tab-entry-title">{season.split("_").join(" ")} <span className="text-shadow">Golden Boots</span> Hall of fame</h1>
         <hr />
         {goldenbootsHallOfFamers.length > 0 ? 
         <div className="members">
