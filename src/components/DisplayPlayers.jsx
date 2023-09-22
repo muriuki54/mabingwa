@@ -7,7 +7,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   let visualTableRef = useRef();
 
-  let [actions, setActions] = useState({ action: "fetchcurrentseason", season: "season_september_november" });
+  let [actions, setActions] = useState({ action: "fetchcurrentseason", season: "fifa_season_september_november" });
   let [error, setError] = useState(false);
   let [players, setPlayers] = useState([]);
   let [tournamentsHallOfFamers, settournamentsHallOfFamers] = useState([]);
@@ -29,6 +29,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
         }
         data = await response.json();
         // data = await response.text();
+        console.log(data);
 
         if(data && data.players && data.players.length > 0) {
           const mostParticipated = data.players.reduce((maxPlayed, currentObj) => {
@@ -89,10 +90,11 @@ const DisplayPlayers = forwardRef(function(props, ref) {
     <>
     <form className="select-season-form" action="" method="get" onSubmit={e => e.preventDefault()}>
       <label htmlFor="select-season" className="text-center"><b>SELECT SEASON</b></label>
-      <select name="select-season" id="select-season" defaultValue="season_september_november" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
+      <select name="select-season" id="select-season" defaultValue="fifa_season_september_november" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
         <option disabled>Select season</option>
-        <option value="season_march_july">March - July 2023</option>
-        <option value="season_september_november" >September - November 2023</option>
+        <option value="fifa_season_march_july">FIFA March - July 2023</option>
+        <option value="fifa_season_september_november">FIFA September - November 2023</option>
+        <option value="pes_season_september_november">PES September - November 2023</option>
       </select>
     </form>
 
