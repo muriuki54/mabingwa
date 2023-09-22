@@ -7,6 +7,7 @@ function AddTournament() {
   const navigate = useNavigate();
 
   let [tournament, setTournament] = useState({
+    tournamentType: null,
     winner: null,
     password: "",
     players: [],
@@ -59,6 +60,9 @@ function AddTournament() {
     let playerIndex = tournament.players.findIndex(player => player.id === playerId)
 
     switch(stat) {
+      case "tournamentType":
+        tournament.tournamentType = e.target.value;
+        break;
       case "played":
         tournament.players[playerIndex].played = e.target.checked;
         break;
@@ -102,6 +106,11 @@ function AddTournament() {
   async function createTournament(e) {
     e.preventDefault();
 
+    // Ensure tournament type is selected: fifa/pes
+    if(!tournament.tournamentType) {
+      alert("Please select the torunament type");
+      return;
+    }
     // Ensure we have a tournament winner
     if(! tournament.winner) {
       alert("Please select the tournament winner");
@@ -113,6 +122,13 @@ function AddTournament() {
     let tournamentWinner = tournament.players.filter(player => Number(player.id) === tournament.winner);
     if(! tournamentWinner[0].played) {
       alert("Winner must have played in the tournament");
+      return;
+    }
+   
+  // Ensure the we have a golden boot winner
+    let goldenbootWinner = tournament.players.filter(player => player.goldenBoot === true);
+    if(goldenbootWinner.length === 0) {
+      alert("Please select a golden boot winner");
       return;
     }
 
@@ -149,7 +165,18 @@ function AddTournament() {
       <div className="container">
         <form action="" method="post" onSubmit={e => createTournament(e)}>
           <div className="won-by" ref={winnerSection}>
-            <h1>Winner</h1>
+            <h1>Tournament Type</h1>
+            <hr />
+            <div className="field">
+                <input type="radio" name="tournament" value="fifa" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="fifa-tournament" />
+                <label htmlFor="fifa-tournament">FIFA</label>
+              </div>
+            <div className="field">
+                <input type="radio" name="tournament" value="pes" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="pes-tournament" />
+                <label htmlFor="pes-tournament">PES</label>
+              </div>
+
+            <h2>Winner</h2>
             <hr />
             {! error ? 
             <>
