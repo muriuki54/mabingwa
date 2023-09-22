@@ -23,7 +23,7 @@ function TournamentWinnersHallOfFame({tournamentsHallOfFamers, season, error}) {
     <div className="container hall-fame-tab">
         {! error ? 
         <>
-        <h1 className="text-center tab-entry-title">{season.split("_").join(" ")} FIFA <span className="text-shadow">Tournaments</span> Hall of fame</h1>
+        <h1 className="text-center tab-entry-title">{season.split("_").join(" ")} <span className="text-shadow">Tournaments</span> Hall of fame</h1>
         <hr />
 
         {tournamentsHallOfFamers.length > 0 ? 
