@@ -30,8 +30,29 @@ function handleData() {
                     $season = $_GET["season"] ?? $_GET["season"];
                     // echo json_encode(array("players" => $players));
                     
-                    if($season) {
+                    if($season !== "all_time_stats") {
                         $stmt = $conn->prepare("SELECT * FROM {$season} ORDER BY won DESC, gf - ga DESC;");
+                        $stmt->execute();
+                        // $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+                        $players = $stmt->fetchAll();
+                        echo json_encode(array("players" => $players));
+                    } else if($season === "all_time_stats") {
+                        $stmt = $conn->prepare("SELECT
+                                                    fifa_season_march_july.name,
+                                                    (fifa_season_march_july.gf + fifa_season_september_november.gf + pes_season_september_november.gf) AS total_gf,
+                                                    (fifa_season_march_july.gf + fifa_season_september_november.gf + pes_season_september_november.gf) AS gf,
+                                                    (fifa_season_march_july.ga + fifa_season_september_november.ga + pes_season_september_november.ga) AS total_ga,
+                                                    (fifa_season_march_july.ga + fifa_season_september_november.ga + pes_season_september_november.ga) AS ga,
+                                                    (fifa_season_march_july.played + fifa_season_september_november.played + pes_season_september_november.played) AS played,
+                                                    (fifa_season_march_july.won + fifa_season_september_november.won + pes_season_september_november.won) AS won,
+                                                    (fifa_season_march_july.goldenboot + fifa_season_september_november.goldenboot + pes_season_september_november.goldenboot) AS goldenboot
+                                                FROM
+                                                    fifa_season_march_july
+                                                JOIN
+                                                    fifa_season_september_november ON fifa_season_march_july.name = fifa_season_september_november.name
+                                                JOIN
+                                                    pes_season_september_november ON fifa_season_march_july.name = pes_season_september_november.name
+                                                ORDER BY won DESC, total_gf - total_ga DESC;");
                         $stmt->execute();
                         // $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
                         $players = $stmt->fetchAll();
