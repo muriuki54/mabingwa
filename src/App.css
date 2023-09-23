@@ -123,6 +123,23 @@ header nav ul li a {
   color: #fff;
 }
 
+.hall-of-fame.all-time-stats {
+    background: linear-gradient(300deg,deepskyblue,darkviolet,#6a5be1);
+    background-size: 180% 180%;
+    animation: gradient-animation 18s ease infinite;
+}
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 #hall-of-famers-toggle {
   display: flex;
   align-items: center;
