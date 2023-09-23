@@ -171,9 +171,13 @@ function AddTournament() {
                 <input type="radio" name="tournament" value="fifa" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="fifa-tournament" />
                 <label htmlFor="fifa-tournament">FIFA</label>
               </div>
-            <div className="field">
-                <input type="radio" name="tournament" value="pes" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="pes-tournament" />
-                <label htmlFor="pes-tournament">PES</label>
+              <div className="field">
+                  <input type="radio" name="tournament" value="pes" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="pes-tournament" />
+                  <label htmlFor="pes-tournament">PES</label>
+              </div>
+              <div className="field">
+                  <input type="radio" name="tournament" value="friendly" onChange={e => updateTournamentStatus(e, "tournamentType", null)} id="friendly-tournament" />
+                  <label htmlFor="friendly-tournament">Friendly</label>
               </div>
 
             <h2>Winner</h2>
