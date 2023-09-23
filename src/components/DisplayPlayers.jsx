@@ -92,13 +92,14 @@ const DisplayPlayers = forwardRef(function(props, ref) {
       <label htmlFor="select-season" className="text-center"><b>SELECT SEASON</b></label>
       <select name="select-season" id="select-season" defaultValue="fifa_season_september_november" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
         <option disabled>Select season</option>
+        <option value="all_time_stats">All Time Stats</option>
         <option value="fifa_season_march_july">FIFA March - July 2023</option>
         <option value="fifa_season_september_november">FIFA September - November 2023</option>
         <option value="pes_season_september_november">PES September - November 2023</option>
       </select>
     </form>
 
-    <div className="hall-of-fame">
+    <div className={`hall-of-fame ${actions.season === "all_time_stats" ? "all-time-stats" : ""}`}>
       <form action="" id="hall-of-famers-toggle">
         <p>Tournaments</p>
         <input type="checkbox" onChange={e => changeHallofFameTab(e)} name="hall-of-famers-toggle-button" id="hall-of-famers-toggle-button" />
