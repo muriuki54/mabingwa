@@ -96,6 +96,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
         <option value="fifa_season_march_july">FIFA March - July 2023</option>
         <option value="fifa_season_september_november">FIFA September - November 2023</option>
         <option value="pes_season_september_november">PES September - November 2023</option>
+        <option value="friendly_season_september_november">Friendies September - November 2023</option>
       </select>
     </form>
 
