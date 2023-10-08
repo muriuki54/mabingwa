@@ -1,4 +1,7 @@
 /* GLOBAL */
+body {
+  overflow-x: hidden;
+}
 .display-sm {
   display: none;
 }
@@ -35,6 +38,7 @@
 /* Header */
 header {
   padding: 20px 0;
+  overflow: hidden;
 }
 
 header .container {
@@ -45,6 +49,11 @@ header .container {
 header img {
   max-width: 50px;
 }
+
+header nav {
+  z-index: 999;
+}
+
 header nav ul {
   display: flex;
   list-style: none;
@@ -59,6 +68,59 @@ header nav ul li a {
   text-decoration: none;
   color: #000;
 }
+
+header .nav-toggle {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #c7bfff;
+  width: 50px;
+  height: 50px;
+  z-index: 1000;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  cursor: pointer;
+}
+
+header .nav-toggle span {
+  width: 30px;
+  height: 4px;
+  background-color: #000;
+  margin: 2px 0;
+  transition: transform 0.4s ease-in-out;
+  -webkit-transition: transform 0.4s ease-in-out;
+  -moz-transition: transform 0.4s ease-in-out;
+  -ms-transition: transform 0.4s ease-in-out;
+  -o-transition: transform 0.4s ease-in-out;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+header .nav-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(3px, 2px);
+  -webkit-transform: rotate(45deg) translate(3px, 2px);
+  -moz-transform: rotate(45deg) translate(3px, 2px);
+  -ms-transform: rotate(45deg) translate(3px, 2px);
+  -o-transform: rotate(45deg) translate(3px, 2px);
+}
+header .nav-toggle.active span:nth-child(2) {
+  display: none;
+}
+header .nav-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(2px, -4px);
+  -webkit-transform: rotate(-45deg) translate(2px, -4px);
+  -moz-transform: rotate(-45deg) translate(2px, -4px);
+  -ms-transform: rotate(-45deg) translate(2px, -4px);
+  -o-transform: rotate(-45deg) translate(2px, -4px);
+}
+
 
 /* Select season form */
 .select-season-form {
@@ -619,8 +681,31 @@ header nav ul li a {
     display: inline-block;
   }
 
+  nav {
+    position: absolute;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #fff;
+    padding-top: 20vh;
+    transition: all 0.4s ease-in-out;
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+  }
+
+  nav.active {
+    right: 0;
+  }
+
   nav ul {
     flex-direction: column;
+  }
+
+  header .nav-toggle {
+    display: flex;
   }
 
   .member .crown {
