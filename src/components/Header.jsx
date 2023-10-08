@@ -1,10 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import logo from "../assets/logo.png";
 import { Link } from 'react-router-dom';
 
 function Header({leaderboardRef, visualTableRef}) {
-    console.log(leaderboardRef)
-    console.log(visualTableRef)
+    let [navToggled, setNavToggled] = useState(false);
 
     function scrollToTableTop() {
         leaderboardRef.current?.scrollIntoView({behavior: "smooth"});
@@ -21,7 +20,13 @@ function Header({leaderboardRef, visualTableRef}) {
                 <Link to="/"><img src={logo} alt="" /></Link>
             </div>
 
-            <nav>
+            <div className={`nav-toggle ${navToggled ? 'active' : ''}`} onClick={() => setNavToggled(! navToggled)}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav className={navToggled ? 'active' : ''}>
                 <ul>
                     <li><Link to="/">Hall of fame</Link></li>
                     <li onClick={scrollToTableTop}>Leaderboard</li>
