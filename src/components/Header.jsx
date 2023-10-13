@@ -27,7 +27,7 @@ function Header({leaderboardRef, visualTableRef}) {
             </div>
 
             <nav className={navToggled ? 'active' : ''}>
-                <ul>
+                <ul onClick={() => setNavToggled(false)}>
                     <li><Link to="/">Hall of fame</Link></li>
                     <li onClick={scrollToTableTop}>Leaderboard</li>
                     <li onClick={scrollToTableBottom}>Visual</li>
