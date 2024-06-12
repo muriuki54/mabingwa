@@ -90,7 +90,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
     <>
     <form className="select-season-form" action="" method="get" onSubmit={e => e.preventDefault()}>
       <label htmlFor="select-season" className="text-center"><b>SELECT SEASON</b></label>
-      <select name="select-season" id="select-season" defaultValue="fifa_season_september_november" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
+      <select name="select-season" id="select-season" defaultValue="all_time_stats" onChange={e => setActions(prevState => ({action: "fetchseason", season: e.target.value}))}>
         <option disabled>Select season</option>
         <option value="all_time_stats">All Time Stats (FIFA + PES)</option>
         <option value="fifa_season_march_july">FIFA March - July 2023</option>
