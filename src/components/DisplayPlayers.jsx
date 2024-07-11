@@ -18,7 +18,7 @@ const DisplayPlayers = forwardRef(function(props, ref) {
 
   useEffect(() => {
     async function fetchPlayers() {
-      let apiUrl = window.location.hostname === "localhost" ? `http://localhost/mabingwa/api.php?action=${actions.action}&season=${actions.season}` : `https://leaderboard.image-editor-online.com/api.php?action=${actions.action}&season=${actions.season}`;
+      let apiUrl = window.location.hostname === "localhost" ? `http://localhost/mabingwa/api.php?action=${actions.action}&season=${actions.season}` : `https://mabingwa.xyz/api.php?action=${actions.action}&season=${actions.season}`;
       let response, data;
       try {
         response = await fetch(apiUrl, {method: "get"});
