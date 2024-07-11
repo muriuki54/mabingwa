@@ -2,7 +2,11 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/imageedi/leaderboard.image-editor-online.com/
-    - /bin/cp api.php $DEPLOYPATH # Copy single file
-    - /bin/cp db.php $DEPLOYPATH
-    - /bin/cp logs.php $DEPLOYPATH
-    # - /bin/cp -R static $DEPLOYPATH # Copy an entire folder
+    - /bin/cp asset-manifest.json $DEPLOYPATH # Copy single file
+    - /bin/cp favicon.ico $DEPLOYPATH
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp logo192.png $DEPLOYPATH
+    - /bin/cp logo512.png $DEPLOYPATH
+    - /bin/cp manifest.json $DEPLOYPATH
+    - /bin/cp robots.txt $DEPLOYPATH
+    - /bin/cp -R static $DEPLOYPATH # Copy an entire folder
