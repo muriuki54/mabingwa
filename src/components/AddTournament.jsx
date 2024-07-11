@@ -19,7 +19,7 @@ function AddTournament() {
   }, [])
 
   async function fetchPlayers() {
-    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchcurrentseason" : "https://leaderboard.image-editor-online.com/api.php?action=fetchcurrentseason";
+    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php?action=fetchcurrentseason" : "https://mabingwa.xyz/api.php?action=fetchcurrentseason";
     let response, data;
     try {
       response = await fetch(apiUrl, {method: "get"});
@@ -132,7 +132,7 @@ function AddTournament() {
       return;
     }
 
-    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php" : "https://leaderboard.image-editor-online.com/api.php";
+    let apiUrl = window.location.host.indexOf("localhost") > -1 ? "https://localhost/mabingwa/api.php" : "https://mabingwa.xyz/api.php";
 
     let formData = new FormData();
     formData.append("newtournament", JSON.stringify(tournament));
